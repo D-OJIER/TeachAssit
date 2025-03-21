@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@google-cloud/vision": "^4.3.3",
+    "@google/generative-ai": "^0.24.0",
     "@supabase/supabase-js": "^2.49.1",
+    "assistia": "file:",
     "atob": "^2.1.2",
     "firebase": "^11.4.0",
     "formidable": "^3.5.2",

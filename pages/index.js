@@ -1,3 +1,4 @@
+import PDFUpload from "@/components/PdfUploader";
 import { useRouter } from "next/router";
 
 export default function Home() {
@@ -18,6 +19,7 @@ export default function Home() {
       >
         Login as Student
       </button>
+      <PDFUpload />
     </div>
   );
 }
