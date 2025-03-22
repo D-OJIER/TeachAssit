@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { db } from "../../../firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
 
 export default function GradingEvaluationPage() {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedField, setSelectedField] = useState("UT1");
   const router = useRouter();
   const { className } = router.query;
 
@@ -28,6 +29,8 @@ export default function GradingEvaluationPage() {
           ...doc.data(),
           selectedFile: null,
           extractedText: "",
+          mark: "",
+          showMarks: false
         }))
       );
     } catch (error) {
@@ -44,7 +47,7 @@ export default function GradingEvaluationPage() {
       return;
     }
     setStudents((prev) =>
-      prev.map((s) => (s.id === studentId ? { ...s, selectedFile: file, extractedText: "" } : s))
+      prev.map((s) => (s.id === studentId ? { ...s, selectedFile: file, extractedText: "", showMarks: true } : s))
     );
   };
 
@@ -56,8 +59,8 @@ export default function GradingEvaluationPage() {
     reader.readAsDataURL(student.selectedFile);
 
     reader.onloadend = async function () {
-      let base64Data = reader.result.split(",")[1];  // Extract base64 content
-      console.log("Base64 Data:", base64Data.slice(0, 100)); // Log first 100 chars
+      let base64Data = reader.result.split(",")[1];
+      console.log("Base64 Data:", base64Data.slice(0, 100));
   
       try {
           const response = await fetch("/api/extract-text", {
@@ -72,16 +75,46 @@ export default function GradingEvaluationPage() {
   
           const data = await response.json();
           console.log("Extracted Text:", data.text);
+          
+          setStudents((prev) =>
+            prev.map((s) =>
+              s.id === studentId ? { ...s, extractedText: data.text, mark: data.text, showMarks: true } : s
+            )
+          );
       } catch (error) {
           console.error("Error extracting text:", error);
       }
+    };
   };
-  
+
+  const updateDatabase = async (studentId) => {
+    const student = students.find((s) => s.id === studentId);
+    if (!student) return;
+
+    try {
+      const studentRef = doc(db, "students", student.id);
+      await updateDoc(studentRef, {
+        [selectedField]: student.mark || ""
+      });
+      console.log("✅ Data updated successfully");
+    } catch (error) {
+      console.error("❌ Error updating data:", error);
+    }
   };
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold">Grading & Evaluation - {className}</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold">Grading & Evaluation - {className}</h1>
+        <select
+          value={selectedField}
+          onChange={(e) => setSelectedField(e.target.value)}
+          className="border p-2 rounded"
+        >
+          <option value="UT1">UT1</option>
+          <option value="CAT1">CAT1</option>
+        </select>
+      </div>
       {loading && <p>Loading students...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
@@ -92,6 +125,7 @@ export default function GradingEvaluationPage() {
               <th className="border p-2">Register No</th>
               <th className="border p-2">Student Name</th>
               <th className="border p-2">Upload File</th>
+              <th className="border p-2" style={{ display: 'none' }}>Marks</th>
             </tr>
           </thead>
           <tbody>
@@ -113,10 +147,25 @@ export default function GradingEvaluationPage() {
                       Extract Text
                     </button>
                   )}
-                  {student.extractedText && (
-                    <p className="mt-2 p-2 bg-gray-100 border">{student.extractedText}</p>
-                  )}
                 </td>
+                {student.showMarks && (
+                  <td className="border p-2">
+                    <input
+                      type="text"
+                      value={student.mark || ""}
+                      onChange={(e) => setStudents((prev) =>
+                        prev.map((s) => (s.id === student.id ? { ...s, mark: e.target.value } : s))
+                      )}
+                      className="w-full p-2 border rounded"
+                    />
+                    <button
+                      onClick={() => updateDatabase(student.id)}
+                      className="bg-green-500 text-white p-2 rounded mt-2"
+                    >
+                      Save
+                    </button>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
