@@ -103,65 +103,55 @@ export default function GradingEvaluationPage() {
   };
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Grading & Evaluation - {className}</h1>
-        <select
-          value={selectedField}
-          onChange={(e) => setSelectedField(e.target.value)}
-          className="border p-2 rounded"
-        >
+    <div className="container">
+      <div className="header">
+        <h1>Grading & Evaluation - {className}</h1>
+        <select className="dropdown" value={selectedField} onChange={(e) => setSelectedField(e.target.value)}>
           <option value="UT1">UT1</option>
           <option value="CAT1">CAT1</option>
+          <option value="UT2">UT2</option>
+          <option value="CAT2">CAT2</option>
         </select>
       </div>
-      {loading && <p>Loading students...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+      {loading && <p className="loading-text">Loading students...</p>}
+      {error && <p className="error-text">{error}</p>}
 
       {!loading && !error && students.length > 0 ? (
-        <table className="w-full mt-4 border-collapse border border-gray-300">
+        <table className="students-table">
           <thead>
-            <tr className="bg-gray-200">
-              <th className="border p-2">Register No</th>
-              <th className="border p-2">Student Name</th>
-              <th className="border p-2">Upload File</th>
-              <th className="border p-2" style={{ display: 'none' }}>Marks</th>
+            <tr>
+              <th>Register No</th>
+              <th>Student Name</th>
+              <th>Upload File</th>
+              <th>Marks</th>
             </tr>
           </thead>
           <tbody>
             {students.map((student) => (
-              <tr key={student.id} className="text-center">
-                <td className="border p-2">{student.registerNo}</td>
-                <td className="border p-2">{student.name}</td>
-                <td className="border p-2">
-                  <input
-                    type="file"
-                    accept="application/pdf"
-                    onChange={(e) => handleFileSelect(e, student.id)}
-                  />
+              <tr key={student.id}>
+                <td>{student.registerNo}</td>
+                <td>{student.name}</td>
+                <td>
+                  <input type="file" accept="application/pdf" onChange={(e) => handleFileSelect(e, student.id)} />
                   {student.selectedFile && (
-                    <button
-                      onClick={() => extractTextFromPDF(student.id)}
-                      className="bg-blue-500 text-white p-2 rounded mt-2"
-                    >
+                    <button onClick={() => extractTextFromPDF(student.id)} className="extract-btn">
                       Extract Text
                     </button>
                   )}
                 </td>
                 {student.showMarks && (
-                  <td className="border p-2">
+                  <td>
                     <input
                       type="text"
                       value={student.mark || ""}
-                      onChange={(e) => setStudents((prev) =>
-                        prev.map((s) => (s.id === student.id ? { ...s, mark: e.target.value } : s))
-                      )}
-                      className="w-full p-2 border rounded"
+                      onChange={(e) =>
+                        setStudents((prev) =>
+                          prev.map((s) => (s.id === student.id ? { ...s, mark: e.target.value } : s))
+                        )
+                      }
+                      className="input-field"
                     />
-                    <button
-                      onClick={() => updateDatabase(student.id)}
-                      className="bg-green-500 text-white p-2 rounded mt-2"
-                    >
+                    <button onClick={() => updateDatabase(student.id)} className="save-btn">
                       Save
                     </button>
                   </td>
@@ -171,8 +161,96 @@ export default function GradingEvaluationPage() {
           </tbody>
         </table>
       ) : (
-        !loading && <p className="mt-4">No students found.</p>
+        !loading && <p className="no-data-text">No students found.</p>
       )}
+
+<style jsx>{`
+  .container {
+    padding: 20px;
+    background-color: #a7a2c3;
+    text-align: center;
+    min-height: 100vh;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #ffffff;
+  }
+
+  .loading-text {
+    color: blue;
+    font-size: 18px;
+  }
+
+  .error-text {
+    color: red;
+    font-size: 18px;
+  }
+
+  .students-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.1);
+  }
+
+  .students-table th {
+    background-color: #f5f5f5;
+    color: black;
+    padding: 12px;
+    font-size: 20px;
+    border: 1px solid #ccc;
+  }
+
+  .students-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+
+  .input-field {
+    padding: 8px;
+    width: 80%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .extract-btn {
+    background-color: #a7a2c3;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+  }
+
+  .save-btn {
+    background-color: #a7a2c3;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+  }
+    .dropdown {
+    margin-left: auto;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+`}</style>
     </div>
   );
 }
