@@ -22,7 +22,7 @@ export default async function handler(req, res) {
                     mimeType: "application/pdf",
                 },
             },
-            "Give only the content in text",
+            "Analyze the provided answers and grade each question out of 10 based on content accuracy, quality, and relevance. Display the results strictly in the format (Q - M) without any additional details, comments, or explanations. Example: 1 - 8, 2 - 6.",
         ]);
 
         const responseText = result?.response?.text?.() || "No response received";
