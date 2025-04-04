@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { db } from "../../../firebase";
 import { collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
+import PDFUpload from "@/components/PdfUploader";
 
 export default function GradingEvaluationPage() {
   const [students, setStudents] = useState([]);
@@ -18,239 +19,68 @@ export default function GradingEvaluationPage() {
   }, [router.isReady, className]);
 
   const fetchStudents = async (className) => {
-    setLoading(true);
-    setError(null);
     try {
-      const studentsQuery = query(collection(db, "students"), where("class", "==", className));
-      const snapshot = await getDocs(studentsQuery);
-      setStudents(
-        snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          selectedFile: null,
-          extractedText: "",
-          mark: "",
-          showMarks: false
-        }))
-      );
-    } catch (error) {
-      console.error("Error fetching students:", error);
-      setError("Failed to fetch student data.");
+      const q = query(collection(db, "students"), where("class", "==", className));
+      const snapshot = await getDocs(q);
+      setStudents(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), mark: "", showMarks: false })));
+    } catch (err) {
+      setError("Failed to fetch students");
     }
     setLoading(false);
   };
 
-  const handleFileSelect = (event, studentId) => {
-    const file = event.target.files[0];
-    if (!file || file.type !== "application/pdf") {
-      alert("Please upload a valid PDF file.");
-      return;
-    }
-    setStudents((prev) =>
-      prev.map((s) => (s.id === studentId ? { ...s, selectedFile: file, extractedText: "", showMarks: true } : s))
-    );
-  };
-
-  const extractTextFromPDF = async (studentId) => {
-    const student = students.find((s) => s.id === studentId);
-    if (!student || !student.selectedFile) return;
-
-    const reader = new FileReader();
-    reader.readAsDataURL(student.selectedFile);
-
-    reader.onloadend = async function () {
-      let base64Data = reader.result.split(",")[1];
-      console.log("Base64 Data:", base64Data.slice(0, 100));
-  
-      try {
-          const response = await fetch("/api/extract-text", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ base64: base64Data }),
-          });
-  
-          if (!response.ok) {
-              throw new Error("Failed to extract text");
-          }
-  
-          const data = await response.json();
-          console.log("Extracted Text:", data.text);
-          
-          setStudents((prev) =>
-            prev.map((s) =>
-              s.id === studentId ? { ...s, extractedText: data.text, mark: data.text, showMarks: true } : s
-            )
-          );
-      } catch (error) {
-          console.error("Error extracting text:", error);
-      }
-    };
-  };
-
   const updateDatabase = async (studentId) => {
     const student = students.find((s) => s.id === studentId);
-    if (!student) return;
-
-    try {
-      const studentRef = doc(db, "students", student.id);
-      await updateDoc(studentRef, {
-        [selectedField]: student.mark || ""
-      });
-      console.log("✅ Data updated successfully");
-    } catch (error) {
-      console.error("❌ Error updating data:", error);
-    }
+    const studentRef = doc(db, "students", studentId);
+    await updateDoc(studentRef, {
+      [selectedField]: student.mark,
+      [`${selectedField}_breakdown`]: student.breakdown,
+    });
+    alert("Saved to database");
   };
 
   return (
-    <div className="container">
-      <div className="header">
-        <h1>Grading & Evaluation - {className}</h1>
-        <select className="dropdown" value={selectedField} onChange={(e) => setSelectedField(e.target.value)}>
-          <option value="UT1">UT1</option>
-          <option value="CAT1">CAT1</option>
-          <option value="UT2">UT2</option>
-          <option value="CAT2">CAT2</option>
-        </select>
-      </div>
-      {loading && <p className="loading-text">Loading students...</p>}
-      {error && <p className="error-text">{error}</p>}
+    <div className="container p-4">
+      <h1 className="text-xl font-bold">Evaluation - {className}</h1>
+      <select value={selectedField} onChange={(e) => setSelectedField(e.target.value)}>
+        <option value="UT1">UT1</option>
+        <option value="CAT1">CAT1</option>
+        <option value="UT2">UT2</option>
+        <option value="CAT2">CAT2</option>
+      </select>
 
-      {!loading && !error && students.length > 0 ? (
-        <table className="students-table">
-          <thead>
-            <tr>
-              <th>Register No</th>
-              <th>Student Name</th>
-              <th>Upload File</th>
-              <th>Marks</th>
-            </tr>
-          </thead>
+      {loading ? <p>Loading...</p> : error ? <p>{error}</p> : (
+        <table className="mt-4 w-full border">
+          <thead><tr><th>Reg No</th><th>Name</th><th>Upload</th><th>Marks</th></tr></thead>
           <tbody>
             {students.map((student) => (
               <tr key={student.id}>
                 <td>{student.registerNo}</td>
                 <td>{student.name}</td>
                 <td>
-                  <input type="file" accept="application/pdf" onChange={(e) => handleFileSelect(e, student.id)} />
-                  {student.selectedFile && (
-                    <button onClick={() => extractTextFromPDF(student.id)} className="extract-btn">
-                      Extract Text
-                    </button>
+                  <PDFUpload onResult={({ total, breakdown }) => {
+                    setStudents((prev) =>
+                      prev.map((s) =>
+                        s.id === student.id ? { ...s, mark: total, breakdown, showMarks: true } : s
+                      )
+                    );
+                  }} />
+                </td>
+                <td>
+                  {student.showMarks && (
+                    <div>
+                      <p>{student.mark}</p>
+                      <button onClick={() => updateDatabase(student.id)}>Save</button>
+                      <button onClick={() => router.push(`/class/${className}/evaluation/${student.id}?field=${selectedField}`)}>View/Edit</button>
+
+                    </div>
                   )}
                 </td>
-                {student.showMarks && (
-                  <td>
-                    <input
-                      type="text"
-                      value={student.mark || ""}
-                      onChange={(e) =>
-                        setStudents((prev) =>
-                          prev.map((s) => (s.id === student.id ? { ...s, mark: e.target.value } : s))
-                        )
-                      }
-                      className="input-field"
-                    />
-                    <button onClick={() => updateDatabase(student.id)} className="save-btn">
-                      Save
-                    </button>
-                  </td>
-                )}
               </tr>
             ))}
           </tbody>
         </table>
-      ) : (
-        !loading && <p className="no-data-text">No students found.</p>
       )}
-
-<style jsx>{`
-  .container {
-    padding: 20px;
-    background-color: #a7a2c3;
-    text-align: center;
-    min-height: 100vh;
-  }
-
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-  }
-
-  h1 {
-    font-size: 32px;
-    font-weight: bold;
-    color: #ffffff;
-  }
-
-  .loading-text {
-    color: blue;
-    font-size: 18px;
-  }
-
-  .error-text {
-    color: red;
-    font-size: 18px;
-  }
-
-  .students-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.1);
-  }
-
-  .students-table th {
-    background-color: #f5f5f5;
-    color: black;
-    padding: 12px;
-    font-size: 20px;
-    border: 1px solid #ccc;
-  }
-
-  .students-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
-  }
-
-  .input-field {
-    padding: 8px;
-    width: 80%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-
-  .extract-btn {
-    background-color: #a7a2c3;
-    color: white;
-    padding: 6px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 5px;
-  }
-
-  .save-btn {
-    background-color: #a7a2c3;
-    color: white;
-    padding: 6px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 5px;
-  }
-    .dropdown {
-    margin-left: auto;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-`}</style>
     </div>
   );
 }
