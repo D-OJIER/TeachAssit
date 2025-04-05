@@ -151,7 +151,7 @@ export default function ClassStudentsPage() {
             className="action-button feedback"
             onClick={async () => {
               await updateDatabase();
-              router.push(`/class/${encodeURIComponent(className)}/feedback`);
+              router.push(`/class/${encodeURIComponent(className)}/feedbackHome`);
             }}
           >
             Feedback Generation
