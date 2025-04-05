@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
 
-export default function PDFUpload({ onResult }) {
+export default function PDFUpload({ keyData, onResult }) {
+  const [response, setResponse] = useState("");
+
   const handlePDFUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -14,14 +16,16 @@ export default function PDFUpload({ onResult }) {
       const res = await fetch("/api/gemini", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pdf: base64PDF }),
+        body: JSON.stringify({ pdf: base64PDF, keyData }),
       });
 
       const data = await res.json();
+      setResponse(data.response || data.error);
+
       const parsed = parseResponse(data.response || "");
       const total = parsed.reduce((sum, item) => sum + parseInt(item.marks, 10), 0);
 
-      onResult({ total, breakdown: parsed });
+      onResult && onResult({ total, breakdown: parsed });
     };
   };
 
@@ -39,5 +43,9 @@ export default function PDFUpload({ onResult }) {
     });
   };
 
-  return <input type="file" accept="application/pdf" onChange={handlePDFUpload} />;
+  return (
+    <>
+      <input type="file" accept="application/pdf" onChange={handlePDFUpload} />
+    </>
+  );
 }

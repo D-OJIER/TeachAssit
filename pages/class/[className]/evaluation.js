@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { db } from "../../../firebase";
 import { collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
 import PDFUpload from "@/components/PdfUploader";
-
+import KeyUpload from "@/components/KeyUploader";
 export default function GradingEvaluationPage() {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,6 +11,9 @@ export default function GradingEvaluationPage() {
   const [selectedField, setSelectedField] = useState("UT1");
   const router = useRouter();
   const { className } = router.query;
+  const [keyData, setKeyData] = useState(null);
+
+  const defaultKey = 'Refer to net'; // fallback key when no upload
 
   useEffect(() => {
     if (router.isReady && className) {
@@ -42,6 +45,17 @@ export default function GradingEvaluationPage() {
   return (
     <div className="container p-4">
       <h1 className="text-xl font-bold">Evaluation - {className}</h1>
+
+      <KeyUpload onExtract={(data) => { setKeyData(data); console.log("Key Data:", data); }} />
+
+      <div className="mt-2 text-sm">
+        {keyData ? (
+          <span className="text-green-600">Using <b>Uploaded Key</b></span>
+        ) : (
+          <span className="text-gray-500">Using <b>Default Key</b></span>
+        )}
+      </div>
+
       <select value={selectedField} onChange={(e) => setSelectedField(e.target.value)}>
         <option value="UT1">UT1</option>
         <option value="CAT1">CAT1</option>
@@ -51,14 +65,21 @@ export default function GradingEvaluationPage() {
 
       {loading ? <p>Loading...</p> : error ? <p>{error}</p> : (
         <table className="mt-4 w-full border">
-          <thead><tr><th>Reg No</th><th>Name</th><th>Upload</th><th>Marks</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Reg No</th>
+              <th>Name</th>
+              <th>Upload</th>
+              <th>Marks</th>
+            </tr>
+          </thead>
           <tbody>
             {students.map((student) => (
               <tr key={student.id}>
                 <td>{student.registerNo}</td>
                 <td>{student.name}</td>
                 <td>
-                  <PDFUpload onResult={({ total, breakdown }) => {
+                  <PDFUpload keyData={keyData || defaultKey} onResult={({ total, breakdown }) => {
                     setStudents((prev) =>
                       prev.map((s) =>
                         s.id === student.id ? { ...s, mark: total, breakdown, showMarks: true } : s
@@ -72,7 +93,6 @@ export default function GradingEvaluationPage() {
                       <p>{student.mark}</p>
                       <button onClick={() => updateDatabase(student.id)}>Save</button>
                       <button onClick={() => router.push(`/class/${className}/evaluation/${student.id}?field=${selectedField}`)}>View/Edit</button>
-
                     </div>
                   )}
                 </td>
