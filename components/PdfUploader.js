@@ -1,31 +1,41 @@
 "use client";
 import { useState } from "react";
+import "./loader.css"; // Assuming your loader3 css is here
 
 export default function PDFUpload({ keyData, onResult }) {
   const [response, setResponse] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   const handlePDFUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
+
+    setUploading(true);  // Show loader
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = async () => {
       const base64PDF = reader.result.split(",")[1];
 
-      const res = await fetch("/api/gemini", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pdf: base64PDF, keyData }),
-      });
+      try {
+        const res = await fetch("/api/gemini", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ pdf: base64PDF, keyData }),
+        });
 
-      const data = await res.json();
-      setResponse(data.response || data.error);
+        const data = await res.json();
+        setResponse(data.response || data.error);
 
-      const parsed = parseResponse(data.response || "");
-      const total = parsed.reduce((sum, item) => sum + parseInt(item.marks, 10), 0);
+        const parsed = parseResponse(data.response || "");
+        const total = parsed.reduce((sum, item) => sum + parseInt(item.marks, 10), 0);
 
-      onResult && onResult({ total, breakdown: parsed });
+        onResult && onResult({ total, breakdown: parsed });
+      } catch (err) {
+        console.error("Error uploading:", err);
+      }
+
+      setUploading(false);  // Hide loader
     };
   };
 
@@ -45,7 +55,11 @@ export default function PDFUpload({ keyData, onResult }) {
 
   return (
     <>
-      <input type="file" accept="application/pdf" onChange={handlePDFUpload} />
+      {uploading ? (
+        <div className="loader4"></div>
+      ) : (
+        <input type="file" accept="application/pdf" onChange={handlePDFUpload} />
+      )}
     </>
   );
 }

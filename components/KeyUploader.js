@@ -1,12 +1,16 @@
 "use client";
 import { useState } from "react";
+import "./keyLoader.css"; // loader3 styles
 
 export default function KeyUpload({ onExtract }) {
   const [response, setResponse] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handlePDFUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
+
+    setLoading(true);
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -21,13 +25,25 @@ export default function KeyUpload({ onExtract }) {
 
       const data = await res.json();
       setResponse(data.response || data.error);
-      onExtract && onExtract(data.response); // Send extracted key back to parent
+      onExtract && onExtract(data.response);
+
+      setLoading(false);
     };
   };
 
   return (
     <>
-      <input type="file" accept="application/pdf" onChange={handlePDFUpload} />
+      <input 
+        type="file" 
+        accept="application/pdf" 
+        onChange={handlePDFUpload}
+        disabled={loading}
+      />
+
+      {/* your animated loader */}
+      {loading && (
+        <div className="loader4"></div>
+      )}
     </>
   );
 }
