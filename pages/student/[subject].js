@@ -2,10 +2,11 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase";
+import LogoutButton from "@/components/LogoutButton"; // ✅ Imported here
 
 export default function SubjectPage() {
   const router = useRouter();
-  const { subject, registerNo } = router.query;
+  const { registerNo } = router.query; // Removed `subject` from here
 
   const [studentName, setStudentName] = useState("");
 
@@ -28,6 +29,8 @@ export default function SubjectPage() {
 
     fetchStudentName();
   }, [router.isReady, registerNo]);
+
+  const subject = "Blockchain"; // ✅ Hardcoded subject name
 
   const handleViewFeedback = () => {
     router.push({
@@ -54,6 +57,7 @@ export default function SubjectPage() {
           <button onClick={() => router.push("/student-dashboard")}>Dashboard</button>
           <button onClick={() => router.push("/about")}>About</button>
           <button onClick={() => router.push("/settings")}>Settings</button>
+          <button className="logout-btn"><LogoutButton /></button> {/* ✅ Logout */}
         </div>
       </nav>
 
@@ -92,7 +96,7 @@ export default function SubjectPage() {
         }
 
         .navbar {
-          width: 100%;
+          width: 95%;
           height: 70px;
           background-color: #233D4D;
           display: flex;
@@ -136,6 +140,20 @@ export default function SubjectPage() {
         }
 
         .nav-links button:hover {
+          color: #f9d923;
+        }
+
+        .logout-btn {
+          background: transparent;
+          border: none;
+          color: #fffbeb;
+          font-size: 16px;
+          cursor: pointer;
+          transition: color 0.3s;
+          margin-left: 15px;
+        }
+
+        .logout-btn:hover {
           color: #f9d923;
         }
 
