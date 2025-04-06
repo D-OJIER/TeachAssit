@@ -72,11 +72,25 @@ export default function ClassStudentsPage() {
 
   return (
     <div className="page-container">
+      
       <div className="container">
         <h1 className="title">Class: {className}</h1>
 
         {loading && <p className="loading-text">Loading students...</p>}
         {error && <p className="error-text">{error}</p>}
+
+        <nav className="navbar">
+        <div className="nav-left">
+          <img src="/images/invenos.png" alt="Logo" className="nav-logo" />
+          <h1 className="nav-title">Sens<span style={{ color: "red" }}>ai</span></h1>
+        </div>
+        <div className="nav-links">
+          <button onClick={() => router.push("/teacher-dashboard")}>Schedule</button>
+          <button onClick={() => router.push("/history")}>About us</button>
+          <button onClick={() => router.push("/settings")}>Settings</button>
+          <button className="logout-btn">Logout</button>
+        </div>
+      </nav>
 
         {!loading && !error && students.length > 0 ? (
           <div className="table-container">
@@ -160,12 +174,74 @@ export default function ClassStudentsPage() {
       </div>
 
       <style jsx>{`
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+
         * {
-          font-family: "Arial", sans-serif;
+          font-family: 'Roboto Condensed', sans-serif;
+        }
+        :global(body, html) {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        .navbar {
+          width: 100%;
+          height: 70px;
+          background-color: #493D9E;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 30px;
+          position: fixed;
+          border:5px solid black;
+          top: 0;
+          left: 0;
+          z-index: 10;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-left {
+          display: flex;
+          align-items: center;
+        }
+
+        .nav-logo {
+          height: 40px;
+          width: 40px;
+          margin-right: 10px;
+        }
+
+        .nav-title {
+          font-size: 26px;
+          font-weight: bold;
+          color: black;
+          letter-spacing: 1px;
+        }
+
+        .nav-links button {
+          margin-left: 15px;
+          background: transparent;
+          border: none;
+          color: #fffbeb;
+          font-size: 16px;
+          cursor: pointer;
+          transition: color 0.3s;
+        }
+
+        .nav-links button:hover {
+          color: #f9d923;
+        }
+
+        .logout-btn {
+          border: 1px solid #fffbeb;
+          padding: 6px 12px;
+          border-radius: 6px;
+          margin-right: 35px;
         }
 
         .page-container {
-          background-color: #a7a2c3; /* Full Page Background */
+          background-color: #2AB3B1; /* Full Page Background */
           min-height: 100vh;
           display: flex;
           align-items: center;
@@ -178,6 +254,8 @@ export default function ClassStudentsPage() {
           background-color: #ffffff;
           box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
           border-radius: 10px;
+          border:5px solid black;
+          margin-top:70px;
         }
 
         .title {
@@ -217,8 +295,8 @@ export default function ClassStudentsPage() {
         }
 
         .students-table th {
-          background-color: #f5f5f5;
-          color: black;
+          background-color:rgb(25, 50, 143);
+          color: white;
           padding: 12px;
           font-size: 18px;
           font-weight: bold;
@@ -232,7 +310,7 @@ export default function ClassStudentsPage() {
         }
 
         .row-light {
-          background-color: #ffffff;
+          background-color:rgb(255, 255, 255);
         }
 
         .row-dark {
@@ -270,7 +348,7 @@ export default function ClassStudentsPage() {
         }
 
         .evaluation {
-          background-color: #a7a2c3;
+          background-color: rgb(25, 50, 143);
           color: white;
         }
 
@@ -279,7 +357,7 @@ export default function ClassStudentsPage() {
         }
 
         .feedback {
-          background-color: #a7a2c3;
+          background-color: rgb(25, 50, 143);
           color: white;
         }
 

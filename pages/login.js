@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { auth, db } from "../firebase";
@@ -18,14 +19,13 @@ export default function Login() {
       const userDoc = await getDoc(doc(db, "users", user.uid));
       if (userDoc.exists()) {
         const userData = userDoc.data();
-
         if (userData.role === "teacher") {
           router.push("/teacher-dashboard");
-        } else if (userData.role === "student") {
+        } else {
           router.push("/student-dashboard");
         }
       } else {
-        console.error("User data not found in Firestore");
+        console.error("User data not found");
       }
     } catch (error) {
       console.error("Login failed:", error.message);
@@ -34,10 +34,15 @@ export default function Login() {
 
   return (
     <div className="container">
-    
       <div className="left-section">
-        <div className="form-container">
-      
+        <div className="form-wrapper">
+          <div className="logo-brand centered">
+            <img src="/images/invenos.png" alt="Logo" className="logo large" />
+            <h1 className="brand-name large">
+              Sens<span className="ai">ai</span>
+            </h1>
+          </div>
+
           <div className="role-selection">
             <button
               className={`role-button ${role === "student" ? "active" : ""}`}
@@ -72,152 +77,224 @@ export default function Login() {
           <p className="forgot-password">Forgot Password?</p>
 
           <button onClick={handleLogin} className="login-button">
-            LOG-IN
+            LOG IN
           </button>
         </div>
       </div>
 
-      {/* Right Section (Background with Image) */}
       <div className="right-section">
-        <img src="................" alt="ADD NECCESARY PIC" className="background-image" />
+        <div className="info-box">
+          <img src="/images/login-bg.png" alt="AI Assistant" className="illustration" />
+          <h2 className="headline">Empowering Teachers with AI</h2>
+          <p className="description">
+            Evaluate student progress, assign grades, and provide personalized feedback effortlessly using our smart assistant platform powered by artificial intelligence.
+          </p>
+        </div>
       </div>
 
-      
-        <style jsx>{`
-    .container {
-      display: flex;
-      height: 97vh;
-    }
+      <style jsx>{`
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
 
-    /* Left Side (Form) */
-    .left-section {
-      width: 50%;
-      background-color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px;
-    }
+        * {
+          font-family: 'Roboto Condensed', sans-serif;
+        }
 
-    .form-container {
-      width: 80%;
-      max-width: 400px;
-    }
+        :global(body, html) {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
 
-    /* Role Selection (Increased Size & Padding) */
-    .role-selection {
-      display: flex;
-      width: 100%;
-      background: #e8e3d8;
-      padding: 15px; /* Increased padding */
-      border-radius: 12px;
-      margin-bottom: 25px;
-    }
+        .container {
+          display: flex;
+          height: 100vh;
+          background-color: #f8f9fa;
+        }
 
-    .role-button {
-      flex: 1;
-      padding: 15px; /* Increased button padding */
-      border: none;
-      background: white;
-      cursor: pointer;
-      font-size: 18px; /* Increased font size */
-      font-weight: bold;
-      border-radius: 8px;
-      transition: background 0.3s, transform 0.2s;
-    }
+        .left-section {
+          width: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: #ffffff;
+        }
 
-    .role-button.active {
-      background: #8e8ba3;
-      color: white;
-      transform: scale(1.05);
-    }
+        .form-wrapper {
+          width: 100%;
+          max-width: 400px;
+        }
 
-    .label {
-      display: block;
-      font-size: 16px;
-      font-weight: bold;
-      color: black;
-      margin-bottom: 5px;
-    }
+        .logo-brand {
+          display: flex;
+          align-items: center;
+          margin-bottom: 40px;
+        }
 
-    .input-field {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid gray;
-      border-radius: 5px;
-      margin-bottom: 18px;
-      font-size: 16px;
-      outline: none;
-    }
+        .centered {
+          justify-content: center;
+          flex-direction: column;
+          text-align: center;
+        }
 
-    .forgot-password {
-      font-size: 14px;
-      color: black;
-      cursor: pointer;
-      text-align: left;
-      margin-bottom: 15px;
-    }
+        .logo {
+          height: 50px;
+          margin-bottom: 10px;
+        }
 
-    .login-button {
-      width: 100%;
-      background: #e8e3d8;
-      color: black;
-      padding: 12px;
-      border: none;
-      border-radius: 22px;
-      font-size: 20px; /* Slightly increased button size */
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
+        .logo.large {
+          height: 80px;
+        }
 
-    .login-button:hover {
-      background: #d6c7b0;
-    }
+        .brand-name {
+          font-size: 32px;
+          font-weight: 700;
+          color: #2E2E2E;
+        }
 
-    /* Right Side (Background + Image) */
-    .right-section {
-      width: 50%;
-      background-color: #a7a2c3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
+        .brand-name.large {
+          font-size: 42px;
+        }
 
-    .background-image {
-      width: 80%;
-      height: auto;
-      max-height: 80%;
-      object-fit: contain;
-    }
+        .brand-name .ai {
+          color: #FF6B6B;
+          
+        }
 
-    /* Responsive Design */
-    @media (max-width: 900px) {
-      .container {
-        flex-direction: column;
-      }
+        .role-selection {
+          display: flex;
+          background: #E0E0E0;
+          padding: 12px;
+          border-radius: 12px;
+          margin: 30px 0;
+        }
 
-      .left-section,
-      .right-section {
-        width: 100%;
-        height: 50vh;
-      }
+        .role-button {
+          flex: 1;
+          padding: 12px;
+          border: none;
+          background: #ffffff;
+          color: #233D4D;
+          font-weight: bold;
+          font-size: 16px;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: 0.3s ease;
+        }
 
-      .right-section {
-        padding: 20px;
-      }
+        .role-button.active {
+          background: #2AB3B1;
+          color: #ffffff;
+          transform: scale(1.05);
+        }
 
-      .background-image {
-        width: 60%;
-      }
+        .label {
+          font-size: 14px;
+          font-weight: bold;
+          color: #2E2E2E;
+          margin-bottom: 5px;
+        }
 
-      .role-button {
-        font-size: 16px; /* Adjust size for smaller screens */
-        padding: 12px;
-      }
-    }
-  `}</style>
+        .input-field {
+          width: 100%;
+          padding: 12px;
+          margin-bottom: 20px;
+          border: 1px solid #ced4da;
+          border-radius: 6px;
+          font-size: 15px;
+          color: #2E2E2E;
+        }
+
+        .forgot-password {
+          font-size: 13px;
+          color: #6C757D;
+          margin-bottom: 20px;
+          cursor: pointer;
+          text-align: right;
+        }
+
+        .login-button {
+          width: 100%;
+          background-color: #2AB3B1;
+          color: white;
+          border: none;
+          padding: 12px;
+          font-size: 18px;
+          font-weight: bold;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: 0.3s ease;
+        }
+
+        .login-button:hover {
+          background-color: #239f9d;
+        }
+
+        .right-section {
+          width: 50%;
+          background-color: #239f9d;
+          color: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 40px;
+          text-align: center;
+        }
+
+        .info-box {
+          max-width: 500px;
+        }
+
+        .illustration {
+          width: 100%;
+          max-height: 280px;
+          object-fit: contain;
+          margin-bottom: 25px;
+        }
+
+        .headline {
+          font-size: 28px;
+          font-weight: 700;
+          margin-bottom: 15px;
+        }
+
+        .description {
+          font-size: 16px;
+          line-height: 1.5;
+          color: #f0f0f0;
+        }
+
+        @media (max-width: 900px) {
+          .container {
+            flex-direction: column;
+          }
+
+          .left-section,
+          .right-section {
+            width: 100%;
+            height: auto;
+          }
+
+          .form-wrapper {
+            max-width: 90%;
+          }
+
+          .brand-name.large {
+            font-size: 34px;
+          }
+
+          .logo.large {
+            height: 60px;
+          }
+
+          .headline {
+            font-size: 22px;
+          }
+
+          .description {
+            font-size: 14px;
+          }
+        }
+      `}</style>
     </div>
   );
 }
