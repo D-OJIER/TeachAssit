@@ -172,8 +172,9 @@ export default function GradingEvaluationPage() {
 
       .scannerBtn {
           padding: 0.4rem 0.8rem;
-          background-color: #facc15; /* Yellow-ish */
-          border: 1px solid #eab308;
+          background-color:rgb(75, 44, 152); /* Yellow-ish */
+          border: 1px solid #251749;
+          color:white;
           border-radius: 0.4rem;
           cursor: pointer;
           font-weight: 500;
@@ -181,7 +182,7 @@ export default function GradingEvaluationPage() {
         }
 
         .scannerBtn:hover {
-          background-color: #eab308;
+          background-color: #251749;
         }
 
       :global(body, html) {
@@ -189,7 +190,7 @@ export default function GradingEvaluationPage() {
           padding: 0;
           box-sizing: border-box;
         }
-          
+
         .container {
           min-height: 100vh;
           padding: 2rem;

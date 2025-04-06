@@ -37,7 +37,7 @@ export default function Login() {
       <div className="left-section">
         <div className="form-wrapper">
           <div className="logo-brand centered">
-            <img src="/images/invenos.png" alt="Logo" className="logo large" />
+            <img src="/images/LOGO.png" alt="Logo" className="logo large" />
             <h1 className="brand-name large">
               Sens<span className="ai">ai</span>
             </h1>

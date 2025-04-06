@@ -80,7 +80,7 @@ export default function StudentFeedbackPage() {
         )}
 
         {loading ? (
-          <p className="loading-text">Fetching AI feedback...</p>
+          <p className="loading-text">Fetching feedback...</p>
         ) : (
           <ul className="feedback-list">
             {feedbacks.map(({ exam, feedback }, index) => (
