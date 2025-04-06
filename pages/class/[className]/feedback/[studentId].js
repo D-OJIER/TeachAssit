@@ -159,7 +159,7 @@ export default function StudentFeedbackPage() {
         }
 
         .feedback-card {
-          background: white;
+          background: rgba(255, 255, 255, 0.05);
           border: 1px solid rgba(255, 255, 255, 0.12);
           padding: 20px;
           border-radius: 15px;

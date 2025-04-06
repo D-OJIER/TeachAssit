@@ -170,33 +170,34 @@ export default function FeedbackPage() {
         }
 
         .feedback-card {
-          background: #f9f9f9;
-          border: 1px solid #ddd;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.12);
           padding: 20px;
-          border-radius: 10px;
+          border-radius: 15px;
           margin-bottom: 20px;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 0 10px rgba(0, 255, 255, 0.05);
+          transition: transform 0.3s ease;
         }
 
         .feedback-card:hover {
-          background: #e7f1ff;
-          box-shadow: 0 4px 12px rgba(0, 123, 255, 0.1);
+          transform: translateY(-5px);
+          box-shadow: 0 0 15px rgba(140, 82, 255, 0.3);
         }
 
         .exam-title {
           font-size: 18px;
           font-weight: bold;
           margin-bottom: 10px;
-          color: #007bff;
+          color: #8c52ff;
         }
 
         .exam-feedback {
-          color: #444;
+          color: #ddd;
         }
 
         @media (max-width: 600px) {
           .glass-box {
-            padding: 20px;
+            padding: 25px;
           }
 
           .title {
