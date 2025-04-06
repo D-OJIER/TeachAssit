@@ -31,7 +31,7 @@ export default function TeacherDashboard() {
 
   const handleLogout = async () => {
     await signOut(auth);
-    router.push("/login");
+    router.push("/index");
   };
 
   return (
