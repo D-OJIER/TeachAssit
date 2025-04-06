@@ -22,9 +22,9 @@ ${Object.entries(scores).map(([exam, mark]) => `${exam}: ${mark}`).join("\n")}
 Write teacher-style feedback for each exam (UT1, CAT1, UT2, CAT2):
 - Speak directly to the student using "I noticed", "You have", "You should", etc.
 - Mention what they did well and what they need to improve.
-- Feedback should be about 3–4 lines per exam.
+- Feedback should be about 3-4 lines per exam.
 
-At the end, include a general summary feedback (4–5 lines) commenting on the overall performance across all exams — again, in the teacher's voice.
+At the end, include a general summary feedback (4-5 lines) commenting on the overall performance across all exams — again, in the teacher's voice.
 
 Format your output exactly like:
 UT1: feedback text
@@ -34,9 +34,10 @@ CAT2: feedback text
 Overall: general feedback text
 `;
 
+const result = await model.generateContent(prompt);
+const response = result.response;
+const responseText = await response.text();
 
-    const result = await model.generateContent(prompt);
-    const responseText = result?.response?.text?.() || "No feedback generated.";
 
     const feedbackMap = {};
     const lines = responseText.split("\n").filter(Boolean);
