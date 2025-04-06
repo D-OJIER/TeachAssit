@@ -106,6 +106,11 @@ export default function MarksPage() {
   * {
     font-family: 'Roboto Condensed', sans-serif;
   }
+    :global(body, html) {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
         .container {
           background: #2ab3b1;
           min-height: 100vh;

@@ -104,6 +104,11 @@ export default function MarksBreakdownPage() {
   * {
     font-family: 'Roboto Condensed', sans-serif;
   }
+    :global(body, html) {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
         .navbar {
           width: 100%;
           height: 70px;
