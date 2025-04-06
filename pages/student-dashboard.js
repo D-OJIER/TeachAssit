@@ -121,7 +121,7 @@ export default function StudentDashboard() {
           }
 
           .navbar {
-            width: 100%;
+            width: 95%;
             height: 70px;
             background-color: #233D4D;
             display: flex;
@@ -169,14 +169,11 @@ export default function StudentDashboard() {
           }
 
           .logout-btn {
-            border: 1px solid #fffbeb;
-            padding: 6px 12px;
-            border-radius: 6px;
-            margin-right: 35px;
-            background: transparent;
-            color: #fffbeb;
-            cursor: pointer;
-          }
+          border: 1px solidrgb(182, 221, 226);
+          padding: 6px 12px;
+          border-radius: 6px;
+          margin-right: auto;
+        }
 
           .welcome {
             font-size: 38px;
