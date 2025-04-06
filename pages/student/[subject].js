@@ -140,7 +140,7 @@ export default function SubjectPage() {
         }
 
         .nav-links button:hover {
-          color: #f9d923;
+          color: #251749;
         }
 
         .logout-btn {
