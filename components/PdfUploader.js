@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import "./loader.css"; // Assuming your loader3 css is here
 
 export default function PDFUpload({ keyData, onResult }) {
   const [response, setResponse] = useState("");
@@ -60,6 +59,63 @@ export default function PDFUpload({ keyData, onResult }) {
       ) : (
         <input type="file" accept="application/pdf" onChange={handlePDFUpload} />
       )}
+
+      <style jsx>{`
+            
+      .loader4{
+        position: relative;
+        width: 150px;
+        height: 20px;
+        
+        top: 45%;
+        top: -webkit-calc(50% - 10px);
+        top: calc(50% - 10px);
+        left: 25%;
+        left: -webkit-calc(50% - 75px);
+        left: calc(50% - 75px);
+        border-radius: 5px;
+        overflow: hidden;
+        background-color: rgba(4, 42, 255, 0.703);
+      }
+        .loader4:before {
+          content: "";
+          position: absolute;
+          background-color: rgba(13, 57, 234, 0.8); /* light loader bar */
+          top: 0;
+          left: 0;
+          height: 20px;
+          width: 0;
+          z-index: 0;
+          opacity: 1;
+          transform-origin: 100% 0%;
+          animation: loader4 2s ease-in-out infinite;
+        }
+
+        .loader4:after {
+          content: "LOADING ...";
+          color: #fff;  /* white text works well over dark bg */
+          font-family: Lato, "Helvetica Neue", sans-serif;
+          font-weight: 300;
+          font-size: 14px;
+          position: absolute;
+          width: 100%;
+          height: 20px;
+          line-height: 20px;
+          left: 0;
+          top: 0;
+          text-align: center;
+          letter-spacing: 1px;
+        }
+
+        @keyframes loader4 {
+          0% { width: 0px; }
+          70% { width: 100%; opacity: 1; }
+          90% { opacity: 0; width: 100%; }
+          100% { opacity: 0; width: 0px; }
+        }
+
+      `}</style>
     </>
+
   );
 }
