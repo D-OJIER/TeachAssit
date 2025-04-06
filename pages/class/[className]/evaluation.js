@@ -90,7 +90,7 @@ export default function GradingEvaluationPage() {
             {keyData ? (
               <span className="active">✅ Uploaded Key Active</span>
             ) : (
-              <span className="default">⚠️ Default Key Active: "Referring Internet"</span>
+              <span className="default">⚠️ Default Key Active: &quot;Referring Internet&quot;</span>
             )}
           </p>
         </div>
@@ -139,6 +139,9 @@ export default function GradingEvaluationPage() {
                         );
                       }}
                     />
+                          <button className="scannerBtn" type="button">
+        Scan
+      </button>
                   </td>
                   <td>
                     {student.showMarks && (
@@ -166,6 +169,20 @@ export default function GradingEvaluationPage() {
       )}
 
       <style jsx>{`
+
+      .scannerBtn {
+          padding: 0.4rem 0.8rem;
+          background-color: #facc15; /* Yellow-ish */
+          border: 1px solid #eab308;
+          border-radius: 0.4rem;
+          cursor: pointer;
+          font-weight: 500;
+          transition: background-color 0.2s ease;
+        }
+
+        .scannerBtn:hover {
+          background-color: #eab308;
+        }
 
       :global(body, html) {
           margin: 0;
