@@ -1,4 +1,18 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SENSAI
+
+An AI-powered grading assistant that helps teachers mark student papers efficiently and helps students understand their performance through detailed feedback.
+
+## Features
+
+- Upload marking scheme PDFs for automated key extraction
+- Process student answer PDFs against marking schemes
+- Automated marking and feedback generation
+- Real-time scoring breakdown
+- Easy-to-use interface
+- Detailed feedback on each answer
+- Clear breakdown of marks per question
+- Improvement suggestions for students
+- Performance analytics and weak area identification
 
 ## Getting Started
 
@@ -14,23 +28,37 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## For Teachers
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Upload a marking scheme PDF using the Key Uploader
+2. Wait for the key extraction to complete
+3. Upload student answer PDFs to get automated marking results
+4. Review the generated scores and feedback
 
-## Learn More
+## For Students
 
-To learn more about Next.js, take a look at the following resources:
+- Get detailed feedback on your answers
+- Understand where marks were lost
+- Receive specific improvement suggestions
+- Track your progress across assessments
+- Identify areas needing more focus
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How to Use
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Upload a marking scheme PDF using the Key Uploader
+2. Wait for the key extraction to complete
+3. Upload student answer PDFs to get automated marking results
+4. Review the generated scores and feedback
+5. Students can view:
+   - Question-by-question breakdown
+   - Detailed feedback for each answer
+   - Suggestions for improvement
+   - Overall performance analytics
 
-## Deploy on Vercel
+## Technical Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Next.js 14
+- Google Gemini AI
+- Firebase
