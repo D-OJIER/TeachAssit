@@ -47,7 +47,7 @@ export default function FeedbackPage() {
       {/* Left Section (Title, Description, Image, Icons) */}
       <div className="left-section">
         <h1 className="title">Feedback Panel</h1>
-        <p className="tagline">"Empowering educators, one student at a time."</p>
+        <p className="tagline">&quot;Empowering educators, one student at a time.&quot;</p>
         <p className="description">
           Use this panel to access feedback tools, select students, and guide academic success.
         </p>
