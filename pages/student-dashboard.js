@@ -4,7 +4,6 @@ import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { auth, db } from "@/firebase";
 import ProtectedRoute from "../components/ProtectedRoute";
-import LogoutButton from "../components/LogoutButton";
 
 export default function StudentDashboard() {
   const [subjects, setSubjects] = useState([]);

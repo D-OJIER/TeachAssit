@@ -39,6 +39,7 @@ export default function GradingEvaluationPage() {
           ...doc.data(),
           mark: "",
           showMarks: false,
+          scanned: false,
         }))
       );
     } catch (err) {
@@ -129,22 +130,47 @@ export default function GradingEvaluationPage() {
                   <td>{student.registerNo}</td>
                   <td>{student.name}</td>
                   <td>
-                    <PDFUpload
-                      keyData={keyData || defaultKey}
-                      onResult={({ total, breakdown }) => {
-                        setStudents((prev) =>
-                          prev.map((s) =>
-                            s.id === student.id
-                              ? { ...s, mark: total, breakdown, showMarks: true }
-                              : s
-                          )
-                        );
-                      }}
-                    />
-                          <button className="scannerBtn" type="button">
+  <div className="uploadWrapper">
+  <PDFUpload
+  keyData={keyData || defaultKey}
+  onResult={({ total, breakdown }) => {
+    setStudents((prev) =>
+      prev.map((s) =>
+        s.id === student.id
+          ? {
+              ...s,
+              mark: total,
+              breakdown,
+              showMarks: true,
+              scanned: true, // <-- Hide Scan button after result
+            }
+          : s
+      )
+    );
+  }}
+/>
+
+    {!student.scanned && (
+      <button
+        className="scannerBtn"
+        type="button"
+        onClick={() => {
+          setStudents((prev) =>
+            prev.map((s) =>
+              s.id === student.id
+                ? { ...s, scanned: true }
+                : s
+            )
+          );
+        }}
+      >
         Scan
       </button>
-                  </td>
+    )}
+  </div>
+</td>
+
+
                   <td>
                     {student.showMarks && (
                       <div className="marksBlock">
@@ -171,6 +197,15 @@ export default function GradingEvaluationPage() {
       )}
 
       <style jsx>{`
+
+
+.uploadWrapper {
+  display: flex;
+  justify-content: space-between; /* pushes items to opposite ends */
+  align-items: center;
+  width: 100%;
+}
+
 
       .scannerBtn {
           padding: 0.4rem 0.8rem;
