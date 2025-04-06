@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { auth, db } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
 export default function TeacherDashboard() {
@@ -22,131 +22,205 @@ export default function TeacherDashboard() {
       if (user) {
         fetchTeacherData(user);
       } else {
-        router.push("/login"); // Redirect if not logged in
+        router.push("/login");
       }
     });
 
     return () => unsubscribe();
   }, []);
 
+  const handleLogout = async () => {
+    await signOut(auth);
+    router.push("/login");
+  };
+
   return (
     <div className="container">
-      {/* Left Section (Title & Image) */}
-      <div className="left-section">
-        <h1 className="title">Teacher Dashboard</h1>
-        <img src="/teacher-image.jpg" alt="Teacher" className="teacher-image" />
-      </div>
-
-      {/* Right Section (Class Buttons) */}
-      <div className="right-section">
-        <p className="subtitle">Select a class to manage:</p>
-        <div className="class-grid">
-          {classes.map((className, index) => (
-            <button
-              key={index}
-              className="class-button"
-              onClick={() => router.push(`/class/${encodeURIComponent(className)}`)}
-            >
-              {className}
-            </button>
-          ))}
+      {/* Navbar */}
+      <nav className="navbar">
+        <div className="nav-left">
+          <img src="/images/invenos.png" alt="Logo" className="nav-logo" />
+          <h1 className="nav-title">Sens<span style={{ color: "red" }}>ai</span></h1>
         </div>
+        <div className="nav-links">
+          <button onClick={() => router.push("/teacher-dashboard")}>Schedule</button>
+          <button onClick={() => router.push("/history")}>About us</button>
+          <button onClick={() => router.push("/settings")}>Settings</button>
+          <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        </div>
+      </nav>
+
+      {/* Content */}
+      <h2 className="welcome">Welcome Back!</h2>
+      <p className="desc">Manage your classes and guide your students with ease.</p>
+
+      <div className="class-grid">
+        {classes.map((className, index) => (
+          <button
+            key={index}
+            className="class-button"
+            style={{ animationDelay: `${index * 0.1}s` }}
+            onClick={() => router.push(`/class/${encodeURIComponent(className)}`)}
+          >
+            {className}
+          </button>
+        ))}
       </div>
 
-      {/* CSS Styles */}
       <style jsx>{`
-        .container {
-          display: flex;
-          height: 97vh;
-          background-color: #f5f5f5;
+
+      @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+
+        * {
+          font-family: 'Roboto Condensed', sans-serif;
+        }
+        :global(html, body) {
+          margin: 0;
+          padding: 0;
+          height: 100%;
+          background: #2AB3B1;
+          font-family: 'Poppins', sans-serif;
         }
 
-        .left-section {
-          width: 50%;
-          flex: 1;
-          background-color: white;
+        .container {
+          min-height: 83.9vh;
+          color: white;
+          padding-top: 100px;
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
-          padding: 40px;
+          overflow-x: hidden;
         }
 
-        .title {
-          font-size: 28px;
+        .navbar {
+          width: 100%;
+          height: 70px;
+          background-color: #493D9E;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 30px;
+          position: fixed;
+          border:5px solid black;
+          top: 0;
+          left: 0;
+          z-index: 10;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-left {
+          display: flex;
+          align-items: center;
+        }
+
+        .nav-logo {
+          height: 40px;
+          width: 40px;
+          margin-right: 10px;
+        }
+
+        .nav-title {
+          font-size: 26px;
           font-weight: bold;
-          color: #333;
+          color: black;
+          letter-spacing: 1px;
+        }
+
+        .nav-links button {
+          margin-left: 15px;
+          background: transparent;
+          border: none;
+          color: #fffbeb;
+          font-size: 16px;
+          cursor: pointer;
+          transition: color 0.3s;
+        }
+
+        .nav-links button:hover {
+          color: #f9d923;
+        }
+
+        .logout-btn {
+          border: 1px solid #fffbeb;
+          padding: 6px 12px;
+          border-radius: 6px;
+          margin-right: 35px;
+        }
+
+        .welcome {
+          font-size: 38px;
+          font-weight: 700;
+          margin-top: 60px;
           margin-bottom: 10px;
         }
 
-        .teacher-image {
-          width: 80%;
-          max-width: 300px;
-          border-radius: 10px;
-        }
-
-        .right-section {
-          width: 50%;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          background-color: #a7a2c3;
-          padding: 20px;
-        }
-
-        .subtitle {
+        .desc {
           font-size: 18px;
-          color: white;
-          margin-bottom: 15px;
-          font-weight: bold;
-        }
-
-        /* Class Buttons Grid */
-        .class-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr); /* 2 columns */
-          gap: 10px;
-          width: 80%;
-        }
-
-        .class-button {
-          width: 100%;
-          background: white;
-          color: black;
-          padding: 12px;
-          border: none;
-          border-radius: 8px;
-          font-size: 16px;
-          cursor: pointer;
-          transition: 0.3s;
+          opacity: 0.9;
+          max-width: 500px;
+          margin-bottom: 40px;
           text-align: center;
         }
 
-        .class-button:hover {
-          background: #217dbb;
-          color: white;
+        .class-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 24px;
+          width: 100%;
+          max-width: 1100px;
+          padding: 20px;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-          .container {
-            flex-direction: column; /* Stack sections vertically */
-            height: auto;
+        .class-button {
+          padding: 40px;
+          background: #fffbeb;
+          color: #263159;
+          font-weight: 700;
+          font-size: 24px;
+          border: 5px solid black;
+          border-radius: 20px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+          cursor: pointer;
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
+          opacity: 0;
+          transform: translateY(20px);
+          animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .class-button:hover {
+          background: white;
+          transform: translateY(-5px) scale(1.03);
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        @keyframes fadeInUp {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @media (max-width: 600px) {
+          .nav-title {
+            font-size: 20px;
           }
 
-          .left-section, .right-section {
-            width: 100%; /* Full width */
-            text-align: center;
+          .nav-links button {
+            margin-left: 10px;
+            font-size: 14px;
           }
 
-          .teacher-image {
-            width: 60%;
+          .welcome {
+            font-size: 28px;
           }
 
-          .class-grid {
-            grid-template-columns: repeat(1, 1fr); /* Single column layout on small screens */
+          .desc {
+            font-size: 16px;
+          }
+
+          .class-button {
+            padding: 24px;
+            font-size: 20px;
           }
         }
       `}</style>
