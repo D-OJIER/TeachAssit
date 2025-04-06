@@ -4,12 +4,14 @@ import { useState } from "react";
 export default function PDFUpload({ keyData, onResult }) {
   const [response, setResponse] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [fileName, setFileName] = useState(""); // ✅ new state
 
   const handlePDFUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
 
-    setUploading(true);  // Show loader
+    setFileName(file.name); // ✅ save name
+    setUploading(true);
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -34,7 +36,7 @@ export default function PDFUpload({ keyData, onResult }) {
         console.error("Error uploading:", err);
       }
 
-      setUploading(false);  // Hide loader
+      setUploading(false);
     };
   };
 
@@ -57,30 +59,35 @@ export default function PDFUpload({ keyData, onResult }) {
       {uploading ? (
         <div className="loader4"></div>
       ) : (
-        <input type="file" accept="application/pdf" onChange={handlePDFUpload} />
+        <>
+          <input type="file" accept="application/pdf" onChange={handlePDFUpload} />
+          {fileName && <p className="file-name">Uploaded: {fileName}</p>} {/* ✅ filename */}
+        </>
       )}
 
       <style jsx>{`
-            
-      .loader4{
-        position: relative;
-        width: 150px;
-        height: 20px;
-        
-        top: 45%;
-        top: -webkit-calc(50% - 10px);
-        top: calc(50% - 10px);
-        left: 25%;
-        left: -webkit-calc(50% - 75px);
-        left: calc(50% - 75px);
-        border-radius: 5px;
-        overflow: hidden;
-        background-color: rgba(4, 42, 255, 0.703);
-      }
+        .file-name {
+          font-size: 14px;
+          color: #333;
+          margin-top: 6px;
+          font-weight: 500;
+        }
+
+        .loader4 {
+          position: relative;
+          width: 150px;
+          height: 20px;
+          top: calc(50% - 10px);
+          left: calc(50% - 75px);
+          border-radius: 5px;
+          overflow: hidden;
+          background-color: rgba(4, 42, 255, 0.703);
+        }
+
         .loader4:before {
           content: "";
           position: absolute;
-          background-color: rgba(13, 57, 234, 0.8); /* light loader bar */
+          background-color: rgba(13, 57, 234, 0.8);
           top: 0;
           left: 0;
           height: 20px;
@@ -93,7 +100,7 @@ export default function PDFUpload({ keyData, onResult }) {
 
         .loader4:after {
           content: "LOADING ...";
-          color: #fff;  /* white text works well over dark bg */
+          color: #fff;
           font-family: Lato, "Helvetica Neue", sans-serif;
           font-weight: 300;
           font-size: 14px;
@@ -108,14 +115,23 @@ export default function PDFUpload({ keyData, onResult }) {
         }
 
         @keyframes loader4 {
-          0% { width: 0px; }
-          70% { width: 100%; opacity: 1; }
-          90% { opacity: 0; width: 100%; }
-          100% { opacity: 0; width: 0px; }
+          0% {
+            width: 0px;
+          }
+          70% {
+            width: 100%;
+            opacity: 1;
+          }
+          90% {
+            opacity: 0;
+            width: 100%;
+          }
+          100% {
+            opacity: 0;
+            width: 0px;
+          }
         }
-
       `}</style>
     </>
-
   );
 }
