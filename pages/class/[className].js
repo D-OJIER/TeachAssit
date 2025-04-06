@@ -81,14 +81,16 @@ export default function ClassStudentsPage() {
 
         <nav className="navbar">
         <div className="nav-left">
-          <img src="/images/invenos.png" alt="Logo" className="nav-logo" />
+          <div className="logo-circle">
+            <img src="/images/LogoCompact.PNG" alt="Logo" className="nav-logo" />
+          </div>
           <h1 className="nav-title">Sens<span style={{ color: "red" }}>ai</span></h1>
         </div>
         <div className="nav-links">
           <button onClick={() => router.push("/teacher-dashboard")}>Schedule</button>
           <button onClick={() => router.push("/history")}>About us</button>
           <button onClick={() => router.push("/settings")}>Settings</button>
-          <button className="logout-btn">Logout</button>
+          <button className="logout-btn" >Logout</button>
         </div>
       </nav>
 
@@ -194,7 +196,7 @@ export default function ClassStudentsPage() {
           align-items: center;
           padding: 0 30px;
           position: fixed;
-          border:5px solid black;
+          border: 5px solid black;
           top: 0;
           left: 0;
           z-index: 10;
@@ -206,10 +208,23 @@ export default function ClassStudentsPage() {
           align-items: center;
         }
 
-        .nav-logo {
-          height: 40px;
-          width: 40px;
+        .logo-circle {
+          height: 45px;
+          width: 45px;
+          background: #fffbeb;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           margin-right: 10px;
+        }
+
+        .nav-logo {
+          height: 38px;
+          width: 35px;
+          margin-left:4px;
+          margin-bottom:3px;
+          
         }
 
         .nav-title {
@@ -230,7 +245,7 @@ export default function ClassStudentsPage() {
         }
 
         .nav-links button:hover {
-          color: #f9d923;
+          color: #251749;
         }
 
         .logout-btn {

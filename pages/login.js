@@ -127,7 +127,7 @@ export default function Login() {
         .logo-brand {
           display: flex;
           align-items: center;
-          margin-bottom: 40px;
+          margin-bottom: -10px;
         }
 
         .centered {
@@ -142,11 +142,12 @@ export default function Login() {
         }
 
         .logo.large {
-          height: 80px;
+          height: 90px;
         }
 
         .brand-name {
           font-size: 32px;
+          margin-top:-10px;
           font-weight: 700;
           color: #2E2E2E;
         }
