@@ -66,18 +66,20 @@ export default function StudentDashboard() {
   return (
     <ProtectedRoute allowedRole="student">
       <div className="container">
-        <nav className="navbar">
-          <div className="nav-left">
-            <img src="/images/invenos.png" alt="Logo" className="nav-logo" />
-            <h1 className="nav-title">Sens<span style={{ color: "red" }}>ai</span></h1>
+      <nav className="navbar">
+        <div className="nav-left">
+          <div className="logo-circle">
+            <img src="/images/LogoCompact.PNG" alt="Logo" className="nav-logo" />
           </div>
-          <div className="nav-links">
-            <button onClick={() => router.push("/student-dashboard")}>Dashboard</button>
-            <button onClick={() => router.push("/about")}>About</button>
-            <button onClick={() => router.push("/settings")}>Settings</button>
-            <button onClick={() => router.push("/login")}>Logout</button>
-          </div>
-        </nav>
+          <h1 className="nav-title">Sens<span style={{ color: "red" }}>ai</span></h1>
+        </div>
+        <div className="nav-links">
+          <button onClick={() => router.push("/teacher-dashboard")}>Schedule</button>
+          <button onClick={() => router.push("/history")}>About us</button>
+          <button onClick={() => router.push("/settings")}>Settings</button>
+          <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        </div>
+      </nav>
 
         <h2 className="welcome">Welcome, {studentName || "Student"}!</h2>
         <p className="desc">Select a subject to continue.</p>
@@ -121,59 +123,72 @@ export default function StudentDashboard() {
   }
 
   .navbar {
-    width: 95%;
-    height: 70px;
-    background-color: #493D9E;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 30px;
-    position: fixed;
-    border: 5px solid black;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  }
+          width: 100%;
+          height: 70px;
+          background-color: #493D9E;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 30px;
+          position: fixed;
+          border: 5px solid black;
+          top: 0;
+          left: 0;
+          z-index: 10;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
 
-  .nav-left {
-    display: flex;
-    align-items: center;
-  }
+        .nav-left {
+          display: flex;
+          align-items: center;
+        }
 
-  .nav-logo {
-    height: 40px;
-    width: 40px;
-    margin-right: 10px;
-  }
+        .logo-circle {
+          height: 45px;
+          width: 45px;
+          background: #fffbeb;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-right: 10px;
+        }
 
-  .nav-title {
-    font-size: 26px;
-    font-weight: bold;
-    color: black;
-    letter-spacing: 1px;
-  }
+        .nav-logo {
+          height: 38px;
+          width: 35px;
+          margin-left:4px;
+          margin-bottom:3px;
+          
+        }
 
-  .nav-links button {
-    margin-left: 15px;
-    background: transparent;
-    border: none;
-    color: #fffbeb;
-    font-size: 16px;
-    cursor: pointer;
-    transition: color 0.3s;
-  }
+        .nav-title {
+          font-size: 26px;
+          font-weight: bold;
+          color: black;
+          letter-spacing: 1px;
+        }
 
-  .nav-links button:hover {
-    color: #251749;
-  }
+        .nav-links button {
+          margin-left: 15px;
+          background: transparent;
+          border: none;
+          color: #fffbeb;
+          font-size: 16px;
+          cursor: pointer;
+          transition: color 0.3s;
+        }
 
-  .logout-btn {
-    border: 1px solid #fffbeb;
-    padding: 6px 12px;
-    border-radius: 6px;
-    margin-right: 35px;
-  }
+        .nav-links button:hover {
+          color: #251749;
+        }
+
+        .logout-btn {
+          border: 1px solid #fffbeb;
+          padding: 6px 12px;
+          border-radius: 6px;
+          margin-right: 35px;
+        }
 
   .welcome {
     font-size: 38px;

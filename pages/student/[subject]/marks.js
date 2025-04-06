@@ -56,14 +56,16 @@ export default function MarksPage() {
     <div className="container">
       <nav className="navbar">
         <div className="nav-left">
-          <img src="/images/invenos.png" alt="Logo" className="nav-logo" />
+          <div className="logo-circle">
+            <img src="/images/LogoCompact.PNG" alt="Logo" className="nav-logo" />
+          </div>
           <h1 className="nav-title">Sens<span style={{ color: "red" }}>ai</span></h1>
         </div>
         <div className="nav-links">
           <button onClick={() => router.push("/teacher-dashboard")}>Schedule</button>
           <button onClick={() => router.push("/history")}>About us</button>
           <button onClick={() => router.push("/settings")}>Settings</button>
-          <button className="logout-btn">Logout</button>
+          <button className="logout-btn" >Logout</button>
         </div>
       </nav>
 
@@ -238,7 +240,7 @@ export default function MarksPage() {
         .navbar {
           width: 100%;
           height: 70px;
-          background-color: #493d9e;
+          background-color: #493D9E;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -256,10 +258,23 @@ export default function MarksPage() {
           align-items: center;
         }
 
-        .nav-logo {
-          height: 40px;
-          width: 40px;
+        .logo-circle {
+          height: 45px;
+          width: 45px;
+          background: #fffbeb;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           margin-right: 10px;
+        }
+
+        .nav-logo {
+          height: 38px;
+          width: 35px;
+          margin-left:4px;
+          margin-bottom:3px;
+          
         }
 
         .nav-title {
