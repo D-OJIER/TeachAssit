@@ -49,7 +49,7 @@ export default function SubjectPage() {
       {/* Navbar (Top Section) */}
       <nav className="navbar">
         <div className="nav-left">
-          <img src="/images/invenos.png" alt="Logo" className="nav-logo" />
+          <img src="/images/LogoCompact.png" alt="Logo" className="nav-logo" />
           <h1 className="nav-title">Sens<span style={{ color: "red" }}>ai</span></h1>
         </div>
         <div className="nav-links">

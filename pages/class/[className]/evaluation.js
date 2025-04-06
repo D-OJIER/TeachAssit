@@ -100,7 +100,7 @@ export default function GradingEvaluationPage() {
       </div>
 
       <div className="fieldSelector">
-        <label>Select Evaluation Field:</label>
+        <label>Select Examination:</label>
         <select value={selectedField} onChange={(e) => setSelectedField(e.target.value)}>
           <option value="UT1">UT1</option>
           <option value="CAT1">CAT1</option>
@@ -130,45 +130,45 @@ export default function GradingEvaluationPage() {
                   <td>{student.registerNo}</td>
                   <td>{student.name}</td>
                   <td>
-  <div className="uploadWrapper">
-  <PDFUpload
-  keyData={keyData || defaultKey}
-  onResult={({ total, breakdown }) => {
-    setStudents((prev) =>
-      prev.map((s) =>
-        s.id === student.id
-          ? {
-              ...s,
-              mark: total,
-              breakdown,
-              showMarks: true,
-              scanned: true, // <-- Hide Scan button after result
-            }
-          : s
-      )
-    );
-  }}
-/>
+                  <div className="uploadWrapper">
+                  <PDFUpload
+                  keyData={keyData || defaultKey}
+                  onResult={({ total, breakdown }) => {
+                    setStudents((prev) =>
+                      prev.map((s) =>
+                        s.id === student.id
+                          ? {
+                              ...s,
+                              mark: total,
+                              breakdown,
+                              showMarks: true,
+                              scanned: true, // <-- Hide Scan button after result
+                            }
+                          : s
+                      )
+                    );
+                  }}
+                />
 
-    {!student.scanned && (
-      <button
-        className="scannerBtn"
-        type="button"
-        onClick={() => {
-          setStudents((prev) =>
-            prev.map((s) =>
-              s.id === student.id
-                ? { ...s, scanned: true }
-                : s
-            )
-          );
-        }}
-      >
-        Scan
-      </button>
-    )}
-  </div>
-</td>
+                {!student.scanned && (
+                  <button
+                    className="scannerBtn"
+                    type="button"
+                    onClick={() => {
+                      setStudents((prev) =>
+                        prev.map((s) =>
+                          s.id === student.id
+                            ? { ...s, scanned: true }
+                            : s
+                        )
+                      );
+                    }}
+                  >
+                    Scan
+                  </button>
+                )}
+              </div>
+            </td>
 
 
                   <td>
