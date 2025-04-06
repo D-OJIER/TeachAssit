@@ -2,11 +2,12 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase";
-import LogoutButton from "@/components/LogoutButton"; // ✅ Imported here
+import LogoutButton from "@/components/LogoutButton";
+
 
 export default function SubjectPage() {
   const router = useRouter();
-  const { registerNo } = router.query; // Removed `subject` from here
+  const { registerNo, subject } = router.query;
 
   const [studentName, setStudentName] = useState("");
 
@@ -30,8 +31,6 @@ export default function SubjectPage() {
     fetchStudentName();
   }, [router.isReady, registerNo]);
 
-  const subject = "Blockchain"; // ✅ Hardcoded subject name
-
   const handleViewFeedback = () => {
     router.push({
       pathname: `/student/${subject}/feedback`,
@@ -47,7 +46,7 @@ export default function SubjectPage() {
   };
 
   return (
-    <div className="subject-container">
+    <div className="container">
       <nav className="navbar">
         <div className="nav-left">
           <img src="/images/invenos.png" alt="Logo" className="nav-logo" />
@@ -57,19 +56,20 @@ export default function SubjectPage() {
           <button onClick={() => router.push("/student-dashboard")}>Dashboard</button>
           <button onClick={() => router.push("/about")}>About</button>
           <button onClick={() => router.push("/settings")}>Settings</button>
-          <button className="logout-btn"><LogoutButton /></button> {/* ✅ Logout */}
+          <button onClick={() => router.push("/login")}>Logout</button>
         </div>
       </nav>
 
-      <div className="content">
-        <h2 className="page-title">Subject: {subject}</h2>
-        {studentName && (
-          <h3 className="student-name">Student: {studentName}</h3>
-        )}
-        <div className="button-group">
-          <button onClick={handleViewMarks} className="nav-button green">View Marks</button>
-          <button onClick={handleViewFeedback} className="nav-button blue">View Feedback</button>
-        </div>
+      <h2 className="page-title">Subject: Blockchain</h2>
+      {studentName && <h3 className="student-name">Welcome, {studentName}!</h3>}
+
+      <div className="button-group">
+        <button onClick={handleViewMarks} className="class-button" style={{ animationDelay: "0s" }}>
+          View Marks
+        </button>
+        <button onClick={handleViewFeedback} className="class-button" style={{ animationDelay: "0.1s" }}>
+          View Feedback
+        </button>
       </div>
 
       <style jsx>{`
@@ -87,7 +87,7 @@ export default function SubjectPage() {
           color: white;
         }
 
-        .subject-container {
+        .container {
           min-height: 100vh;
           padding-top: 100px;
           display: flex;
@@ -98,7 +98,7 @@ export default function SubjectPage() {
         .navbar {
           width: 95%;
           height: 70px;
-          background-color: #233D4D;
+          background-color: #493D9E;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -144,29 +144,15 @@ export default function SubjectPage() {
         }
 
         .logout-btn {
-          background: transparent;
-          border: none;
-          color: #fffbeb;
-          font-size: 16px;
-          cursor: pointer;
-          transition: color 0.3s;
           margin-left: 15px;
         }
 
-        .logout-btn:hover {
-          color: #f9d923;
-        }
-
-        .content {
-          text-align: center;
-          margin-top: 40px;
-          max-width: 600px;
-        }
-
         .page-title {
-          font-size: 36px;
+          font-size: 38px;
           font-weight: 700;
+          margin-top: 20px;
           margin-bottom: 10px;
+          text-align: center;
         }
 
         .student-name {
@@ -176,42 +162,41 @@ export default function SubjectPage() {
         }
 
         .button-group {
-          display: flex;
-          gap: 20px;
-          justify-content: center;
-          flex-wrap: wrap;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 24px;
+          width: 100%;
+          max-width: 600px;
+          padding: 20px;
         }
 
-        .nav-button {
-          padding: 16px 32px;
-          font-size: 20px;
-          font-weight: bold;
-          border: 4px solid black;
-          border-radius: 12px;
+        .class-button {
+          padding: 40px;
+          background: #fffbeb;
+          color: #263159;
+          font-weight: 700;
+          font-size: 24px;
+          border: 5px solid black;
+          border-radius: 20px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
           cursor: pointer;
-          transition: transform 0.3s ease;
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
+          opacity: 0;
+          transform: translateY(20px);
+          animation: fadeInUp 0.6s ease forwards;
         }
 
-        .nav-button:hover {
-          transform: scale(1.05);
+        .class-button:hover {
+          background: white;
+          transform: translateY(-5px) scale(1.03);
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
         }
 
-        .green {
-          background-color: #00C851;
-          color: white;
-        }
-
-        .green:hover {
-          background-color: #007E33;
-        }
-
-        .blue {
-          background-color: #33b5e5;
-          color: white;
-        }
-
-        .blue:hover {
-          background-color: #0099cc;
+        @keyframes fadeInUp {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         @media (max-width: 600px) {
@@ -223,9 +208,9 @@ export default function SubjectPage() {
             font-size: 20px;
           }
 
-          .nav-button {
-            padding: 12px 24px;
-            font-size: 16px;
+          .class-button {
+            padding: 24px;
+            font-size: 20px;
           }
         }
       `}</style>

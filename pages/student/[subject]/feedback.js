@@ -110,7 +110,7 @@ export default function FeedbackPage() {
         }
 
         .container {
-          background: #2ab3b1;
+          background: #e5e5e5;
           min-height: 100vh;
           display: flex;
           justify-content: center;
@@ -120,40 +120,38 @@ export default function FeedbackPage() {
         }
 
         .glass-box {
-          background: #251749;
+          background: #ffffff;
           margin-top: 70px;
-          border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          padding: 40px;
+          border-radius: 15px;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          padding: 30px;
           width: 100%;
           max-width: 700px;
-          color: #f0f0f0;
-          box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+          color: #333333;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
 
         .title {
-          font-size: 32px;
+          font-size: 28px;
           margin-bottom: 10px;
-          background: linear-gradient(90deg, #00ffe0, #8c52ff);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          color: #333;
           text-align: center;
         }
 
         .subtitle {
           text-align: center;
-          font-size: 20px;
-          color: #cfcfcf;
+          font-size: 18px;
+          color: #666;
         }
 
         .highlight {
-          color: #00ffe0;
+          color: #007bff;
         }
 
         .loading-text {
           text-align: center;
           font-size: 16px;
-          color: #ccc;
+          color: #888;
         }
 
         .feedback-list {
@@ -163,34 +161,33 @@ export default function FeedbackPage() {
         }
 
         .feedback-card {
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: #f9f9f9;
+          border: 1px solid #ddd;
           padding: 20px;
-          border-radius: 15px;
+          border-radius: 10px;
           margin-bottom: 20px;
-          box-shadow: 0 0 10px rgba(0, 255, 255, 0.05);
-          transition: transform 0.3s ease;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
         .feedback-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 0 15px rgba(140, 82, 255, 0.3);
+          background: #e7f1ff;
+          box-shadow: 0 4px 12px rgba(0, 123, 255, 0.1);
         }
 
         .exam-title {
           font-size: 18px;
           font-weight: bold;
           margin-bottom: 10px;
-          color: #8c52ff;
+          color: #007bff;
         }
 
         .exam-feedback {
-          color: #ddd;
+          color: #444;
         }
 
         @media (max-width: 600px) {
           .glass-box {
-            padding: 25px;
+            padding: 20px;
           }
 
           .title {
