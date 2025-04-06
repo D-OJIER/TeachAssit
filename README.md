@@ -1,4 +1,4 @@
-# TeachAssist
+# SENSAI
 
 An AI-powered grading assistant that helps teachers mark student papers efficiently and helps students understand their performance through detailed feedback.
 
