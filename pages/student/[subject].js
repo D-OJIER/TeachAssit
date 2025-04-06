@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase";
-import LogoutButton from "@/components/LogoutButton";
 
 
 export default function SubjectPage() {
@@ -47,31 +46,47 @@ export default function SubjectPage() {
 
   return (
     <div className="container">
+      {/* Navbar (Top Section) */}
       <nav className="navbar">
         <div className="nav-left">
-          <div className="logo-circle">
-            <img src="/images/LogoCompact.PNG" alt="Logo" className="nav-logo" />
-          </div>
+          <img src="/images/invenos.png" alt="Logo" className="nav-logo" />
           <h1 className="nav-title">Sens<span style={{ color: "red" }}>ai</span></h1>
         </div>
         <div className="nav-links">
-          <button onClick={() => router.push("/teacher-dashboard")}>Schedule</button>
-          <button onClick={() => router.push("/history")}>About us</button>
+          <button onClick={() => router.push("/student-dashboard")}>Dashboard</button>
+          <button onClick={() => router.push("/about")}>About</button>
           <button onClick={() => router.push("/settings")}>Settings</button>
-          <button className="logout-btn" >Logout</button>
+          <button onClick={() => router.push("/login")}>Logout</button>
         </div>
       </nav>
 
-      <h2 className="page-title">Subject: Blockchain</h2>
-      {studentName && <h3 className="student-name">Welcome, {studentName}!</h3>}
+      <div className="main-content">
+        {/* Left Section: Image and Content */}
+        <div className="left-section">
+          <img src="/images/blockchain.jpg" alt="Subject" className="subject-image" />
+          <div className="subject-info">
+            <h2>Blockchain: Understanding the Future</h2>
+            <p>
+              Dive deep into the world of blockchain technology with this subject. Learn how decentralized systems
+              are reshaping industries.
+            </p>
+          </div>
+        </div>
 
-      <div className="button-group">
-        <button onClick={handleViewMarks} className="class-button" style={{ animationDelay: "0s" }}>
-          View Marks
-        </button>
-        <button onClick={handleViewFeedback} className="class-button" style={{ animationDelay: "0.1s" }}>
-          View Feedback
-        </button>
+        {/* Right Section: Marks and Feedback */}
+        <div className="right-section">
+          <h2 className="page-title">Subject: Blockchain</h2>
+          {studentName && <h3 className="student-name">Welcome, {studentName}!</h3>}
+
+          <div className="button-group">
+            <button onClick={handleViewMarks} className="class-button" style={{ animationDelay: "0s" }}>
+              View Marks
+            </button>
+            <button onClick={handleViewFeedback} className="class-button" style={{ animationDelay: "0.1s" }}>
+              View Feedback
+            </button>
+          </div>
+        </div>
       </div>
 
       <style jsx>{`
@@ -90,15 +105,16 @@ export default function SubjectPage() {
         }
 
         .container {
-          min-height: 100vh;
-          padding-top: 100px;
           display: flex;
           flex-direction: column;
-          align-items: center;
+          min-height: 100vh;
+          padding-top: 7px;
         }
 
+        /* Navbar (Top Section) */
         .navbar {
-          width: 100%;
+          width: 95%;
+          border: 5px solid black;
           height: 70px;
           background-color: #493D9E;
           display: flex;
@@ -106,7 +122,6 @@ export default function SubjectPage() {
           align-items: center;
           padding: 0 30px;
           position: fixed;
-          border: 5px solid black;
           top: 0;
           left: 0;
           z-index: 10;
@@ -118,23 +133,10 @@ export default function SubjectPage() {
           align-items: center;
         }
 
-        .logo-circle {
-          height: 45px;
-          width: 45px;
-          background: #fffbeb;
-          border-radius: 50%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin-right: 10px;
-        }
-
         .nav-logo {
-          height: 38px;
-          width: 35px;
-          margin-left:4px;
-          margin-bottom:3px;
-          
+          height: 40px;
+          width: 40px;
+          margin-right: 10px;
         }
 
         .nav-title {
@@ -142,6 +144,10 @@ export default function SubjectPage() {
           font-weight: bold;
           color: black;
           letter-spacing: 1px;
+        }
+
+        .nav-links {
+          margin-left: auto;
         }
 
         .nav-links button {
@@ -155,22 +161,61 @@ export default function SubjectPage() {
         }
 
         .nav-links button:hover {
-          color: #251749;
+          color: #f9d923;
         }
 
-        .logout-btn {
-          border: 1px solid #fffbeb;
-          padding: 6px 12px;
-          border-radius: 6px;
-          margin-right: 35px;
+        .main-content {
+          display: flex;
+          padding: 20px;
+          margin-top: 80px; /* to make room for the navbar */
         }
+
+        /* Left Section (Image and Content) */
+        .left-section {
+          width: 50%;
+          margin-right: 20px;
+          background-color: #263159; /* Blue color */
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .subject-image {
+          width: 100%;
+          border-radius: 8px;
+          margin-bottom: 20px;
+        }
+
+        .subject-info h2 {
+          font-size: 24px;
+          font-weight: bold;
+          margin-bottom: 10px;
+        }
+
+        .subject-info p {
+          font-size: 16px;
+          color: #fff;
+        }
+
+       /* Right Section (Marks and Feedback) */
+.right-section {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  background-color: #263159;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  height: auto; 
+}
+
 
         .page-title {
           font-size: 38px;
           font-weight: 700;
-          margin-top: 20px;
-          margin-bottom: 10px;
-          text-align: center;
+          margin-bottom: 20px;
         }
 
         .student-name {
