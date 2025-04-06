@@ -13,7 +13,7 @@ export default function GradingEvaluationPage() {
   const { className } = router.query;
   const [keyData, setKeyData] = useState(null);
 
-  const defaultKey = 'Refer to net'; // fallback key when no upload
+  const defaultKey = 'Refer to net and chack for atmost accuracy'; // fallback key when no upload
 
   useEffect(() => {
     if (router.isReady && className) {
