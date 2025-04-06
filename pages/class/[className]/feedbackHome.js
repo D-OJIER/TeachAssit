@@ -42,7 +42,7 @@ export default function FeedbackPage() {
         <p className="subtitle">Students of Class {className}</p>
         <div className="class-grid">
           {loading ? (
-            <p>Loading students...</p>
+            <p className="loading-text">Loading students...</p>
           ) : students.length > 0 ? (
             students.map((student, index) => (
               <button
@@ -51,13 +51,12 @@ export default function FeedbackPage() {
                 onClick={() =>
                   router.push(`/class/${encodeURIComponent(className)}/feedback/${student.id}`)
                 }
-                
               >
                 {student.name} ({student.registerNo})
               </button>
             ))
           ) : (
-            <p>No students found in this class.</p>
+            <p className="loading-text">No students found in this class.</p>
           )}
         </div>
       </div>
@@ -65,8 +64,9 @@ export default function FeedbackPage() {
       <style jsx>{`
         .container {
           display: flex;
-          height: 97vh;
-          background-color: #f5f5f5;
+          height: 100vh;
+          background: linear-gradient(to right, #f8f9fc, #e4e4f5);
+          font-family: 'Segoe UI', sans-serif;
         }
 
         .left-section {
@@ -78,19 +78,21 @@ export default function FeedbackPage() {
           align-items: center;
           justify-content: center;
           padding: 40px;
+          box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
         }
 
         .title {
-          font-size: 28px;
-          font-weight: bold;
-          color: #333;
-          margin-bottom: 10px;
+          font-size: 32px;
+          font-weight: 700;
+          color: #2c2c54;
+          margin-bottom: 20px;
         }
 
         .teacher-image {
-          width: 80%;
-          max-width: 300px;
-          border-radius: 10px;
+          width: 85%;
+          max-width: 320px;
+          border-radius: 12px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .right-section {
@@ -99,57 +101,66 @@ export default function FeedbackPage() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-start;
+          padding: 40px 20px;
           background-color: #a7a2c3;
-          padding: 20px;
+          overflow-y: auto;
         }
 
         .subtitle {
-          font-size: 18px;
+          font-size: 22px;
+          font-weight: 600;
           color: white;
-          margin-bottom: 15px;
-          font-weight: bold;
+          margin-bottom: 25px;
         }
 
         .class-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 10px;
-          width: 80%;
+          grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+          gap: 15px;
+          width: 100%;
+          max-width: 600px;
         }
 
         .class-button {
-          width: 100%;
           background: white;
-          color: black;
-          padding: 12px;
+          color: #333;
+          padding: 12px 16px;
           border: none;
-          border-radius: 8px;
+          border-radius: 10px;
           font-size: 16px;
+          font-weight: 500;
           cursor: pointer;
-          transition: 0.3s;
-          text-align: center;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease;
         }
 
         .class-button:hover {
-          background: #217dbb;
+          background-color: #263159;
           color: white;
+          transform: translateY(-2px);
+        }
+
+        .loading-text {
+          color: white;
+          font-size: 16px;
+          text-align: center;
+          width: 100%;
         }
 
         @media (max-width: 768px) {
           .container {
             flex-direction: column;
-            height: auto;
           }
 
           .left-section,
           .right-section {
             width: 100%;
-            text-align: center;
+            padding: 30px 15px;
           }
 
           .teacher-image {
-            width: 60%;
+            width: 65%;
           }
 
           .class-grid {

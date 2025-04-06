@@ -11,13 +11,13 @@
 	left: -webkit-calc(50% - 75px);
 	left: calc(50% - 75px);
 
-	background-color: rgba(255,255,255,0.2);
+	background-color: rgba(4, 42, 255, 0.703);
 }
 
 .loader4:before {
 	content: "";
 	position: absolute;
-	background-color: rgba(255, 255, 255, 0.8); /* light loader bar */
+	background-color: rgba(6, 72, 227, 0.8); /* light loader bar */
 	top: 0;
 	left: 0;
 	height: 20px;

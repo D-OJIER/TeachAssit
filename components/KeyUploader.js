@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import "./keyLoader.css"; // loader3 styles
+import "./keyLoader.css"; // loader4 styles
 
 export default function KeyUpload({ onExtract }) {
   const [response, setResponse] = useState("");
@@ -38,12 +38,32 @@ export default function KeyUpload({ onExtract }) {
         accept="application/pdf" 
         onChange={handlePDFUpload}
         disabled={loading}
+        className="styled-input"
       />
 
-      {/* your animated loader */}
-      {loading && (
-        <div className="loader4"></div>
-      )}
+      {loading && <div className="loader4"></div>}
+
+      <style jsx>{`
+        .styled-input {
+          padding: 10px 16px;
+          background-color: #493D9E;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          font-size: 14px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+
+        .styled-input:hover {
+          background-color: #263159;
+        }
+
+        .styled-input:disabled {
+          background-color: #a8a8a8;
+          cursor: not-allowed;
+        }
+      `}</style>
     </>
   );
 }

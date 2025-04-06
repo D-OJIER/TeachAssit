@@ -195,7 +195,7 @@ export default function Login() {
         }
 
         .input-field {
-          width: 100%;
+          width: 93.5%;
           padding: 12px;
           margin-bottom: 20px;
           border: 1px solid #ced4da;
