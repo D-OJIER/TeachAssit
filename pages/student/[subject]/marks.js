@@ -101,6 +101,11 @@ export default function MarksPage() {
       </div>
 
       <style jsx>{`
+      @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+
+  * {
+    font-family: 'Roboto Condensed', sans-serif;
+  }
         .container {
           background: #2ab3b1;
           min-height: 100vh;

@@ -99,6 +99,11 @@ export default function MarksBreakdownPage() {
       </div>
 
       <style jsx>{`
+      @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+
+  * {
+    font-family: 'Roboto Condensed', sans-serif;
+  }
         .navbar {
           width: 100%;
           height: 70px;
@@ -171,6 +176,7 @@ export default function MarksBreakdownPage() {
           max-width: 900px;
           width: 100%;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+          border-radius:2%;
         }
 
         h1 {

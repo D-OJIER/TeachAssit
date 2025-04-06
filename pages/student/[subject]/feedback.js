@@ -103,24 +103,30 @@ export default function FeedbackPage() {
       </div>
 
       <style jsx>{`
+      @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+
+  * {
+    font-family: 'Roboto Condensed', sans-serif;
+  }
         :global(body, html) {
           margin: 0;
           padding: 0;
           box-sizing: border-box;
+          font-family: 'Roboto', sans-serif;
         }
 
         .container {
-          background: #e5e5e5;
+          background: #2AB3B1;
           min-height: 100vh;
           display: flex;
           justify-content: center;
           align-items: center;
           padding: 20px;
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          
         }
 
         .glass-box {
-          background: #ffffff;
+          background:#251749;
           margin-top: 70px;
           border-radius: 15px;
           border: 1px solid rgba(0, 0, 0, 0.1);
@@ -136,6 +142,7 @@ export default function FeedbackPage() {
           margin-bottom: 10px;
           color: #333;
           text-align: center;
+          color:#ffffff
         }
 
         .subtitle {
