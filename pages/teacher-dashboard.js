@@ -29,10 +29,6 @@ export default function TeacherDashboard() {
     return () => unsubscribe();
   }, []);
 
-  const handleLogout = async () => {
-    await signOut(auth);
-    router.push("/index");
-  };
 
   return (
     <div className="container">
@@ -48,7 +44,7 @@ export default function TeacherDashboard() {
           <button onClick={() => router.push("/teacher-dashboard")}>Schedule</button>
           <button onClick={() => router.push("/history")}>About us</button>
           <button onClick={() => router.push("/settings")}>Settings</button>
-          <button className="logout-btn" onClick={handleLogout}>Logout</button>
+          <button className="logout-btn" >Logout</button>
         </div>
       </nav>
 
