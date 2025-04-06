@@ -172,6 +172,7 @@ export default function GradingEvaluationPage() {
           padding: 0;
           box-sizing: border-box;
         }
+          
         .container {
           min-height: 100vh;
           padding: 2rem;

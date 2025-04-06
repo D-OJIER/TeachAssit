@@ -111,7 +111,7 @@ export default function StudentFeedbackPage() {
         }
 
         .glass-box {
-          background: rgba(10, 10, 10, 0.8);
+          background: #251749;
           backdrop-filter: blur(1px);
           -webkit-backdrop-filter: blur(1px);
           margin-top:70px;
